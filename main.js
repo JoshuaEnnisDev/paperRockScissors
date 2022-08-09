@@ -1,4 +1,10 @@
-
+let roundInfo = {
+    playerChoice:"",
+    computerChoice: "",
+    results:"",
+    playerScore:0,
+    computerScore:0,
+}
 //returns number between 1 and upper
 function random(upper)
 {
@@ -31,20 +37,10 @@ function getComputerChoice()
     }
 }
 
-function playRound()
-{   
-    const choices = ["Paper", "Rock", "Scissors", "Lizard", "Spock"];
-
-    do{
-        player = prompt("Let's play paper rock scissors lizard spock!\nPlease enter your choice.");
-        player = formatString(player);
-        if(!choices.includes(player))
-        {
-            alert("Please check your spelling");
-        }
-    } while (!choices.includes(player));
+function playRound(player)
+{  
     
-    computer = getComputerChoice();
+    let computer = getComputerChoice();
     
     let str;
     let win = false;
@@ -154,51 +150,79 @@ function playRound()
                 break;
         }
     }
-
+    roundInfo.playerChoice = `You chose ${player}.`;
+    roundInfo.computerChoice = `Computer chose ${computer}.`;
+   
     
     if (win)
     {
-        return `Computer chose ${computer}. You win! ${player} ${str} ${computer}.`;
+        roundInfo.results = `You win! ${player} ${str} ${computer}.`; 
+        roundInfo.playerScore++;
+        return roundInfo; 
     }
     else if (!win)
     {
-        return `Computer chose ${computer}. You lose! ${computer} ${str} ${player}.`
+        roundInfo.results = `You lose! ${computer} ${str} ${player}.`
+        roundInfo.computerScore++;
+        return roundInfo;
     }
 }
 
-function game()
+    let player = document.querySelector(".player");
+    let computer = document.querySelector(".computer");
+    let results = document.querySelector(".roundResults");
+    let playerScore = document.querySelector(".playerScore");
+    let computerScore = document.querySelector(".computerScore");
+    let game = document.querySelector(".gameResults");
+
+function playGame()
 {
-    let playerCount = 0;
-    let computerCount = 0;
+    const buttons = document.querySelectorAll('.playBtn');
 
-    for (let i = 0; i < 5; i++)
-    {
-        result = playRound();
-        console.log(result);
+    buttons.forEach(button => {
+        button.addEventListener('click', () => {
+            resetButton.innerHTML = "";
+            playRound(button.name);
+            player.textContent = roundInfo.playerChoice;
+            computer.textContent = roundInfo.computerChoice;
+            results.textContent = roundInfo.results;
+            playerScore.textContent = `Your Score: ${roundInfo.playerScore}`;
+            computerScore.textContent = `Computer Score: ${roundInfo.computerScore}`;
+            
 
-        if (result.includes("win!"))
-        {
-            playerCount ++;
-        }
-        if (result.includes("lose!"))
-        {
-            computerCount ++;
-        }
-        console.log(`Computer score: ${computerCount}`);
-        console.log(`PlayerScore: ${playerCount}`);
-    }
+            if (roundInfo.playerScore >= 5){
+                game.textContent = "You won the game! Press reset to play again.";   
+                resetButton.innerHTML = "Reset";
 
-    if (playerCount > computerCount)
-    {
-        console.log("You won the game.");
-        
-    }
-    else if (computerCount > playerCount)
-    {
-        console.log("You lost. Try again.");
-    }
-    else{
-        console.log("You tied.");
-    }
-    return;
+            }
+            else if (roundInfo.computerScore >= 5)
+            {
+                game.textContent = "Sorry. You lost. Press reset to try again.";
+                resetButton.innerHTML = "Reset";
+            }
+        })
+    });
+    
 }
+
+const resetButton = document.querySelector(".resetBtn");
+
+resetButton.addEventListener('click', () => {
+    player.textContent = "";
+    computer.textContent = "";
+    results.textContent = "";
+    roundInfo.playerScore = 0;
+    roundInfo.computerScore = 0;
+    playerScore.textContent = "";
+    computerScore.textContent = "";
+    game.textContent = "";
+    resetButton.innerHTML = "";
+});
+
+playGame();
+
+
+
+
+
+

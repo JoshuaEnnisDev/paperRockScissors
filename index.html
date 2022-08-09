@@ -4,10 +4,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="main.js"></script>
+    <script src="main.js" defer></script>
+    <link rel="stylesheet" href="style.css">
     <title>PRSLS</title>
 </head>
 <body>
-    
+    <h2>Let's play paper rock scissors lizard spock!</h2>
+    <h3>Make a choice below.</h3>
+    <h3>First to five wins.</h3>
+    <div class="button-container">
+        
+        <button class="playBtn" name="Paper">Paper</button>
+        <button class="playBtn" name="Rock">Rock</button>
+        <button class="playBtn" name="Scissors">Scissors</button>
+        <button class="playBtn" name="Lizard">Lizard</button>
+        <button class="playBtn" name="Spock">Spock</button>    
+    </div>
+    <div class="results-container">
+        <div class="player"></div>
+        <div class="computer"></div>
+        <div class="roundResults"></div>
+        <div class="playerScore"></div>
+        <div class="computerScore"></div>
+        <div class="gameResults"></div>
+    </div>
+    <button class="resetBtn"></button>
 </body>
 </html>
